@@ -1,0 +1,9 @@
+body {
+  overscroll-behavior-y: none;
+}
+#root {
+  min-height: 100dvh;
+}
+* {
+  -webkit-touch-callout: none;
+}
