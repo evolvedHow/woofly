@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { MapContainer, TileLayer, Polyline, Marker, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import { useNavigate } from 'react-router-dom'
-import { Play, Pause, Flag, Sparkles, RotateCcw, MapPin, Timer, Footprints, Navigation } from 'lucide-react'
+import { Play, Pause, Flag, Sparkles, RotateCcw, MapPin, Timer, Footprints, Navigation, PawPrint } from 'lucide-react'
 import { db } from '../db/db.js'
 import { useApp } from '../context/AppContext.jsx'
 import { haversineMeters, formatKm, formatDuration } from '../lib/geo.js'
@@ -430,6 +430,12 @@ export default function WalkPage() {
               </div>
             )}
             <div className="flex gap-2">
+              <button
+                onClick={() => navigate('/woof', { state: { compose: { kind: 'walk', refId: summary.walk.id } } })}
+                className="btn-ghost flex-1"
+              >
+                <PawPrint size={16} /> Woof it
+              </button>
               <button
                 onClick={() => navigate('/photos', { state: { fromWalk: summary.walk } })}
                 className="btn-ghost flex-1"

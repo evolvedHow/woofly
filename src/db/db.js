@@ -14,6 +14,13 @@ db.version(1).stores({
   chats: 'id, createdAt',
 })
 
+db.version(2).stores({
+  woofIdentity: 'id',
+  woofKeys: 'id',
+  woofOutbox: 'id, createdAt, status, toHandle',
+  woofInbox: 'id, createdAt, read',
+})
+
 export async function dbSnapshot() {
   const [pet, walks, friends, hydrants, badges, snaps, auth, allConfig] = await Promise.all([
     db.petProfiles.toArray(),

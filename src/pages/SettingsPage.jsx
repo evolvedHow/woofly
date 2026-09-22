@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import {
   Upload,
   Download,
@@ -11,11 +11,14 @@ import {
   Sparkles,
   ShieldCheck,
   WifiOff,
+  Save,
+  Radio,
 } from 'lucide-react'
 import { db } from '../db/db.js'
 import { useApp } from '../context/AppContext.jsx'
 import { parseConfigYaml, saveConfig, configToYaml } from '../config/configEngine.js'
 import { downloadBlob } from '../lib/files.js'
+import { getWoofSettings, setWoofSettings } from '../lib/woof/transports.js'
 import GoogleDrive from '../components/GoogleDrive.jsx'
 
 const AVATARS = ['🐾', '🐶', '🐕', '🐕‍🦺', '🐩', '🧸', '🐈', '🦊', '🐰', '🦮', '🐺', '🐼']
@@ -31,6 +34,22 @@ export default function SettingsPage() {
   const [keyLoaded, setKeyLoaded] = useState(false)
   const fileRef = useRef(null)
   const [applying, setApplying] = useState(false)
+  const [relayUrl, setRelayUrl] = useState('')
+  const [relayToken, setRelayToken] = useState('')
+  const [relayLoaded, setRelayLoaded] = useState(false)
+
+  useEffect(() => {
+    let alive = true
+    getWoofSettings().then((s) => {
+      if (!alive) return
+      setRelayUrl(s.relayUrl)
+      setRelayToken(s.relayToken)
+      setRelayLoaded(true)
+    })
+    return () => {
+      alive = false
+    }
+  }, [])
 
   if (!keyLoaded) {
     getKey().then((k) => {
@@ -77,6 +96,11 @@ export default function SettingsPage() {
   const saveKeyDraft = async () => {
     await setKey(keyDraft.trim())
     notify('OpenRouter key saved. true AIs unlocked.')
+  }
+
+  const doWoofSettings = async () => {
+    await setWoofSettings({ relayUrl: relayUrl.trim(), relayToken: relayToken.trim() })
+    notify(`Relay ${relayUrl.trim() ? 'saved' : 'cleared'} — you can move woofs through it later if you fancy.`)
   }
 
   const resetAll = async () => {
@@ -212,6 +236,25 @@ export default function SettingsPage() {
         <p className="mt-3 flex items-center gap-1 text-[11px] font-bold text-slate-400">
           <WifiOff size={12} /> Fully offline once loaded. Map tiles & fonts are cached.
         </p>
+      </div>
+
+      <div className="card">
+        <h3 className="mb-3 flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-400">
+          <Cloud size={14} /> Woof relay (optional)
+        </h3>
+        <p className="mb-3 text-xs font-bold text-slate-500 dark:text-slate-400">
+          A time-blind mailbox for moving woofs to from-the-couch friends. Leave it blank and every woof travels <em className="not-italic">pup-to-pup</em> as a local packet — no server, fully private. Only fill this in if you actually run a relay.
+        </p>
+        <div className="mb-2 flex flex-col gap-2">
+          <input value={relayUrl} onChange={(e) => setRelayUrl(e.target.value)} placeholder="https://relay.example.dev/postbox" className="input w-full" />
+          <input type="password" value={relayToken} onChange={(e) => setRelayToken(e.target.value)} placeholder="relay token (kept on-device)" className="input w-full" />
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={doWoofSettings} className="btn-primary">
+            <Cloud size={16} /> Save relay
+          </button>
+          <span className="text-[11px] font-bold text-slate-400">Documents it via settings; nothing leaves your device until you Woof it.</span>
+        </div>
       </div>
 
       <GoogleDrive />

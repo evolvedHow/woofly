@@ -138,9 +138,14 @@ export default function PassportPage() {
 
   return (
     <div className="animate-fadeIn">
-      <header className="mb-3">
-        <h1 className="text-2xl font-black tracking-tight">Woof Passport</h1>
-        <p className="text-xs font-bold text-slate-400">swipe QR codes like a seasoned park diplomat</p>
+      <header className="mb-3 flex items-start justify-between gap-2">
+        <div>
+          <h1 className="text-2xl font-black tracking-tight">Woof Passport</h1>
+          <p className="text-xs font-bold text-slate-400">swipe QR codes like a seasoned park diplomat</p>
+        </div>
+        <Link to="/woof" className="shrink-0 rounded-2xl bg-white dark:bg-slate-900 px-3 py-2 text-xs font-black text-woof-pink shadow-card">
+          🐾 Woof Circle →
+        </Link>
       </header>
 
       {!pet ? (

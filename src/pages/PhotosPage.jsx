@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import imageCompression from 'browser-image-compression'
 import { toBlob } from 'html-to-image'
 import { Camera, ImagePlus, Share2, Download, Trash2, Sparkles, Loader2, PawPrint } from 'lucide-react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { db } from '../db/db.js'
 import { useApp } from '../context/AppContext.jsx'
 import { shareFile, downloadBlob } from '../lib/files.js'
@@ -85,6 +85,7 @@ function Postcard({ photoUrl, caption, walk, pet, personaEmoji, tagline }) {
 export default function PhotosPage() {
   const { config, pet, notify, callWoofAI, bumpAiWoofs } = useApp()
   const location = useLocation()
+  const navigate = useNavigate()
   const [snaps, setSnaps] = useState([])
   const [selected, setSelected] = useState(null)
   const [selectedUrl, setSelectedUrl] = useState(null)
@@ -94,7 +95,8 @@ export default function PhotosPage() {
   const [busy, setBusy] = useState(false)
   const [snapBusy, setSnapBusy] = useState(false)
   const [generating, setGenerating] = useState(null)
-  const fileRef = useRef(null)
+  const cameraRef = useRef(null)
+  const galleryRef = useRef(null)
 
   const fromWalk = location.state?.fromWalk
 
@@ -219,10 +221,17 @@ export default function PhotosPage() {
   return (
     <div className="animate-fadeIn">
       <input
-        ref={fileRef}
+        ref={cameraRef}
         type="file"
         accept="image/*"
         capture="environment"
+        className="hidden"
+        onChange={(e) => onPick(e.target.files?.[0])}
+      />
+      <input
+        ref={galleryRef}
+        type="file"
+        accept="image/*"
         className="hidden"
         onChange={(e) => onPick(e.target.files?.[0])}
       />
@@ -232,11 +241,11 @@ export default function PhotosPage() {
       </header>
 
       <div className="card mb-3 flex flex-col gap-2.5 text-center">
-        <button onClick={() => fileRef.current?.click()} disabled={snapBusy} className="btn-primary w-full py-4 text-base">
+        <button onClick={() => cameraRef.current?.click()} disabled={snapBusy} className="btn-primary w-full py-4 text-base">
           {snapBusy ? <Loader2 className="animate-spin" size={20} /> : <Camera size={20} />}
           {snapBusy ? 'Compressing…' : 'Snap a photo'}
         </button>
-        <button onClick={() => fileRef.current?.click()} className="btn-ghost w-full text-sm">
+        <button onClick={() => galleryRef.current?.click()} className="btn-ghost w-full text-sm">
           <ImagePlus size={16} /> Upload from gallery
         </button>
       </div>
@@ -323,6 +332,12 @@ export default function PhotosPage() {
               )}
 
               <div className="flex gap-2">
+                <button
+                  onClick={() => navigate('/woof', { state: { compose: { kind: 'photo', refId: selected.id } } })}
+                  className="btn-ghost flex-1"
+                >
+                  <PawPrint size={16} /> Woof it
+                </button>
                 <button onClick={buildPostcard} disabled={generating} className="btn-primary flex-1">
                   {generating ? <Loader2 size={18} className="animate-spin" /> : <Share2 size={18} />}
                   {generating ? 'Rendering…' : 'Share postcard'}

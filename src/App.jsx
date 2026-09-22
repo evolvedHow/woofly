@@ -11,6 +11,7 @@ import BadgesPage from './pages/BadgesPage.jsx'
 import SettingsPage from './pages/SettingsPage.jsx'
 import AiBarkPage from './pages/AiBarkPage.jsx'
 import SniffPage from './pages/SniffPage.jsx'
+import WoofCirclePage from './pages/WoofCirclePage.jsx'
 import Splash from './components/Splash.jsx'
 import './App.css'
 
@@ -32,6 +33,7 @@ function Pages() {
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/ai" element={<AiBarkPage />} />
         <Route path="/sniff" element={<SniffPage />} />
+        <Route path="/woof" element={<WoofCirclePage />} />
         <Route path="*" element={<WalkPage />} />
       </Routes>
     </>
