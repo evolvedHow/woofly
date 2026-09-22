@@ -35,7 +35,7 @@ function MapGlue({ pos, path, hydrants, claimed }) {
         maxZoom={19}
       />
       {path.length > 1 && (
-        <Polyline positions={path} pathOptions={{ color: '#f472b6', weight: 5, opacity: 0.85 }} />
+        <Polyline positions={path} pathOptions={{ color: '#22c55e', weight: 5, opacity: 0.85 }} />
       )}
       {claimed && <Marker position={[claimed.lat, claimed.lng]} icon={hydrantConfirmIcon()} />}
       {hydrants
@@ -49,13 +49,13 @@ function MapGlue({ pos, path, hydrants, claimed }) {
 }
 
 function HydrantModal({ open, onClose, onSubmit }) {
-  const { config, notify } = useApp()
+  const { config, notify, framed } = useApp()
   const [nickname, setNickname] = useState('')
   const [note, setNote] = useState('')
   if (!open) return null
   const defaultPrompt = config?.walk_defaults?.hydrant_claim_prompt || 'Name your territory:'
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-woof-ink/50 p-4 dark:bg-black/60">
+    <div className={`${framed ? 'absolute' : 'fixed'} inset-0 z-50 grid place-items-center bg-woof-ink/50 p-4 dark:bg-black/60`}>
       <div className="card w-full max-w-sm animate-fadeIn">
         <div className="mb-3 flex items-center gap-2">
           <span className="text-2xl">🚿</span>
@@ -100,7 +100,7 @@ function HydrantModal({ open, onClose, onSubmit }) {
 }
 
 export default function WalkPage() {
-  const { config, pet, notify } = useApp()
+  const { config, pet, notify, framed } = useApp()
   const navigate = useNavigate()
   const [status, setStatus] = useState('pre')
   const [startTime, setStartTime] = useState(null)
@@ -396,7 +396,7 @@ export default function WalkPage() {
       )}
 
       {summary && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-woof-ink/50 p-4 dark:bg-black/60" onClick={() => setSummary(null)}>
+        <div className={`${framed ? 'absolute' : 'fixed'} inset-0 z-50 grid place-items-center bg-woof-ink/50 p-4 dark:bg-black/60`} onClick={() => setSummary(null)}>
           <div className="card w-full max-w-sm animate-fadeIn" onClick={(e) => e.stopPropagation()}>
             <div className="mb-2 flex items-center gap-2">
               <span className="text-2xl">🏁</span>

@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { db } from '../db/db.js'
 import { getActiveConfig, seedDefaultConfig } from '../config/configEngine.js'
 import { evaluateBadges } from '../lib/badges.js'
+import { useDesktopFrame } from '../lib/useDesktopFrame.js'
 
 const AppContext = createContext(null)
 
@@ -21,6 +22,7 @@ export function AppProvider({ children }) {
   const [installPrompt, setInstallPrompt] = useState(null)
   const [toast, setToast] = useState(null)
   const [online, setOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true)
+  const framed = useDesktopFrame()
 
   const notify = useCallback((msg, kind = 'ok') => {
     setToast({ msg, kind, id: Date.now() })
@@ -166,6 +168,7 @@ export function AppProvider({ children }) {
     pet,
     ready,
     online,
+    framed,
     installPrompt,
     setInstallPrompt,
     toast,

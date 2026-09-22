@@ -10,7 +10,7 @@ export const FALLBACK_CONFIG = {
     tagline: 'paw-sitively local & offline',
     avatar_default: '🐾',
     max_photo_bytes: 204800,
-    accent: '#f472b6',
+    accent: '#22c55e',
     share_prefix: 'https://woof.ly/#/sniff?data=',
     map_default: [40.7128, -74.006],
   },

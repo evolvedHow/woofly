@@ -53,7 +53,7 @@ function Postcard({ photoUrl, caption, walk, pet, personaEmoji, tagline }) {
       <div style={{ position: 'absolute', right: 12, top: 12 }}>
         <span
           style={{
-            background: 'linear-gradient(135deg,#f472b6,#fb923c)',
+            background: 'linear-gradient(135deg,#22c55e,#a3e635)',
             borderRadius: 12,
             padding: '4px 10px',
             color: '#fff',
@@ -75,7 +75,7 @@ function Postcard({ photoUrl, caption, walk, pet, personaEmoji, tagline }) {
           </p>
         )}
         <p style={{ margin: '4px 0 0', color: '#fff', fontWeight: 900, fontSize: 15, letterSpacing: 1 }}>
-          woof<span style={{ color: '#fda4af' }}>.LY</span>
+          woof<span style={{ color: '#86efac' }}>.LY</span>
         </p>
       </div>
     </div>

@@ -10,19 +10,19 @@ export default {
       },
       colors: {
         woof: {
-          cream: '#fff8ef',
-          blush: '#fdf2f8',
-          pink: '#f472b6',
-          peach: '#fb923c',
-          mint: '#5eead4',
-          sky: '#7dd3fc',
-          lilac: '#c4b5fd',
-          sunny: '#fde68a',
+          cream: '#f2fbf4',
+          blush: '#e6f8ee',
+          pink: '#22c55e',
+          peach: '#4ade80',
+          mint: '#30c997',
+          sky: '#6ee7b7',
+          lilac: '#bbf7d0',
+          sunny: '#bef264',
           ink: '#0f172a',
         },
       },
       boxShadow: {
-        bubble: '0 6px 24px -6px rgba(244, 114, 182, 0.35)',
+        bubble: '0 6px 24px -6px rgba(34, 197, 94, 0.35)',
         card: '0 4px 20px -6px rgba(15, 23, 42, 0.18)',
       },
       borderRadius: {
