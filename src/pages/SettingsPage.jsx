@@ -11,8 +11,7 @@ import {
   Sparkles,
   ShieldCheck,
   WifiOff,
-  Save,
-  Radio,
+  Cloud,
 } from 'lucide-react'
 import { db } from '../db/db.js'
 import { useApp } from '../context/AppContext.jsx'
